@@ -48,20 +48,25 @@ public class SimpleServer {
                     StringBuilder fullRequest = new StringBuilder();
                     while ((request = in.readLine()) != null && !request.isEmpty()) {
                         fullRequest.append(request).append("\n");
+                        if (request.equals("exit")) {
+                            System.out.println("Simple Client Demo finished!");
+                            clientSocket.close();
+                            break;
+                        }
                     }
-
 
                     String response = processRequest(fullRequest.toString());
 
                     out.println(response);
-                    //System.out.println("Server response: " + response);
-                    if (response.equals("# #")) {
-                        System.out.println("Simple Server Demo finished!");
+                    System.out.println("Server response: " + response);
+                    if (response.equals("0 0")) {
+                        System.out.println("Simple client Demo finished!");
+                        clientSocket.close();
                         break;
                     }
 
                 }
-                clientSocket.close();
+
             } catch (IOException e) {
                 System.err.println("IOException during client handling: " + e.getMessage());
             }
